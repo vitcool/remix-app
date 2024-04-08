@@ -1,8 +1,10 @@
 import { redirect } from '@remix-run/node';
-import { getStoredNotes, storeNotes } from '~/data/notes';
-import NewNote from '../components/NewNote'
-import NoteList from '~/components/NoteList';
 import { useLoaderData } from '@remix-run/react';
+import type { LinksFunction } from "@remix-run/node"; 
+
+import { getStoredNotes, storeNotes } from '~/data/notes';
+import NewNote, { links as newNoteLinks } from '../components/NewNote'
+import NoteList, { links as noteListLinks } from '~/components/NoteList';
 
 export default function NotesPage() {
   const notes = useLoaderData();
@@ -28,5 +30,11 @@ export async function action({ request }) {
   noteData.id = new Date().toISOString();
   const updatedNotes = [...existingNotes, noteData];
   await storeNotes(updatedNotes);
-  return redirect('/notes')
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  return redirect('/notes');
 }
+
+export const links: LinksFunction = () => [
+  ...newNoteLinks(),
+  ...noteListLinks()
+];

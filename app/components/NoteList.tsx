@@ -1,4 +1,9 @@
-import styles from './NoteList.css';
+import type { LinksFunction } from "@remix-run/node"; 
+import styles from './NoteList.css?url';
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: styles },
+];
 
 function NoteList({ notes }) {
   return (
@@ -32,7 +37,3 @@ function NoteList({ notes }) {
 }
 
 export default NoteList;
-
-export function links() {
-  return [{ rel: 'stylesheet', href: styles }];
-}
