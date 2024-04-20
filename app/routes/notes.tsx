@@ -70,3 +70,10 @@ export const links: LinksFunction = () => [
   ...newNoteLinks(),
   ...noteListLinks()
 ];
+
+export const meta = () => {
+  return [{
+    title: 'Notes',
+    description: 'A simple note-taking app',
+  }];
+}

@@ -35,3 +35,9 @@ export async function loader({ params: { noteId }}) {
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
+
+export function meta({ data }) {
+  return [{
+    title: data.title,
+  }];
+}
