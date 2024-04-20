@@ -1,4 +1,4 @@
-import { Form, useNavigation } from '@remix-run/react';
+import { Form, useActionData, useNavigation } from '@remix-run/react';
 import type { LinksFunction } from "@remix-run/node"; 
 
 import styles from './NewNote.css?url';
@@ -9,11 +9,13 @@ export const links: LinksFunction = () => [
 
 function NewNote() {
   const { state } = useNavigation();
+  const data = useActionData();
 
   const isSubmitting = state === 'submitting';
 
   return (
     <Form method="post" id="note-form">
+      {data?.message &&<p>{data.message}</p> }
       <p>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" name="title" required />

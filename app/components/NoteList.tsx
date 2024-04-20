@@ -1,11 +1,14 @@
 import type { LinksFunction } from "@remix-run/node"; 
+import { useLoaderData } from '@remix-run/react';
 import styles from './NoteList.css?url';
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-function NoteList({ notes }) {
+function NoteList() {
+  const notes = useLoaderData();
+
   return (
     <ul id="note-list">
       {notes.map((note, index) => (
