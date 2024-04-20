@@ -7,7 +7,6 @@ import {
 import { getStoredNotes, storeNotes } from '~/data/notes';
 import NewNote, { links as newNoteLinks } from '../components/NewNote'
 import NoteList, { links as noteListLinks } from '~/components/NoteList';
-import { c } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
 
 export default function NotesPage() {  
   return (
