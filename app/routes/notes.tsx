@@ -1,9 +1,13 @@
 import { json, redirect } from '@remix-run/node';
 import type { LinksFunction } from "@remix-run/node"; 
-
+import {
+  useRouteError,
+  isRouteErrorResponse,
+} from "@remix-run/react";
 import { getStoredNotes, storeNotes } from '~/data/notes';
 import NewNote, { links as newNoteLinks } from '../components/NewNote'
 import NoteList, { links as noteListLinks } from '~/components/NoteList';
+import { c } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
 
 export default function NotesPage() {  
   return (
@@ -16,6 +20,11 @@ export default function NotesPage() {
 
 export async function loader() {
   const notes = await getStoredNotes();
+
+  if (!notes || notes.length === 0) {
+    throw json('No notes found', { status: 404, statusText: 'Not Found' });
+  }
+
   return notes;
 }
 
@@ -33,6 +42,29 @@ export async function action({ request }) {
   await storeNotes(updatedNotes);
   await new Promise(resolve => setTimeout(resolve, 2000));
   return redirect('/notes');
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <main>
+        <NewNote />
+        <p className="info-message">{error.data || 'Sorry, we couldn\'t process your request. Please try again later.'}</p>
+      </main>
+    );
+  }
+
+  const errorMessage = "Unknown error";
+
+  return (
+    <main className="error">
+      <h1>Uh oh ...</h1>
+      <p>Something went wrong.</p>
+      <pre>{errorMessage}</pre>
+    </main>
+  );
 }
 
 export const links: LinksFunction = () => [
